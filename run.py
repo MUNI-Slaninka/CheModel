@@ -12,7 +12,11 @@ class Run:
 
         :param count:
         :param size:
-        :param probabilities:
+        :param prob_death_normal:
+        :param prob_death_cancer:
+        :param prob_spread_alive:
+        :param prob_spread_death:
+        :param prob_growth:
         """
         self.__count = count
         self.__size = size
@@ -21,7 +25,7 @@ class Run:
         self.__prob_spread_alive = prob_spread_alive
         self.__prob_spread_death = prob_spread_death
         self.__prob_growth = prob_growth
-        self.__cells = cells.Cells(size).add_cancer((size // 2, size // 2))
+        self.__cells = cells.Cells(size).add_cancer(size // 2, size // 2)
         self.__stats = None
 
     def chemo(self, start, count, frequency, strength_cancer, strength_normal):
@@ -86,6 +90,14 @@ class Run:
         :return:
         """
         return self.__stats[-1]
+
+    def get_sum(self):
+        """
+        to do
+        :return:
+        """
+
+        return tuple(map(sum, zip(*self.__stats)))
 
     def __decide_step(self, step, start, count, frequency, strength_cancer, strength_normal):
         """

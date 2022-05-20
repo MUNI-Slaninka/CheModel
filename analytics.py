@@ -1,4 +1,5 @@
 from copy import deepcopy
+import numpy as np
 
 
 class Analytics:
@@ -45,20 +46,29 @@ class Analytics:
 
         statistics = [[[]]]
 
-        for count in range(self.__count_min, self.__count_max):
-            for frequency in range(self.__frequency_min, self.__frequency_max):
-                for strength in range(self.__strength_min // self.__strength_step,
-                                      self.__strength_max // self.__strength_step):
+        for count in range(self.__count_min, self.__count_max + 1):
+            for frequency in range(self.__frequency_min, self.__frequency_max + 1):
+                for strength in np.arange(self.__strength_min, self.__strength_max + self.__strength_step,
+                                          self.__strength_step):
                     if verbose:
                         print(".", end="")
-                    strength_cancer = strength * self.__strength_step
-                    strength_normal = strength_cancer * self.__strength_modifier
                     run_ = deepcopy(self.__run_)
-                    run_.chemo(self.__start, count, frequency, strength_cancer, strength_normal)
-                    statistics[-1][-1].append(run_.get_final())
+                    run_.chemo(self.__start, count, frequency, strength, strength * self.__strength_modifier)
+                    statistics[-1][-1].append((run_.get_final(), run_.get_sum()))
                 statistics[-1].append([])
             statistics.append([])
 
         print("")
+        statistics.pop()
+        statistics[-1].pop()
         self.__statistics = statistics
+
         return self
+
+    def get_statistics(self):
+        """
+        to do
+
+        :return:
+        """
+        return self.__statistics

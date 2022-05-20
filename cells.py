@@ -40,15 +40,22 @@ class Cells:
 
         return self
 
-    def add_cancer(self, coords):
+    def add_cancer(self, row, col):
         """
         to do
 
-        :param coords:
+        :param row:
+        :param col
 
         :return:
         """
-        self.__matrix[coords] = 2
+        coordinates = ([(row, col),
+                       (row - 1, col),
+                       (row + 1, col),
+                       (row, col - 1),
+                       (row, col + 1)])
+        for coord in coordinates:
+            self.__matrix[coord] = 2
         return self
 
     def get_image(self,  scale, palette=None):
