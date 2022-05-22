@@ -1,4 +1,5 @@
 from PIL import Image, ImageTk
+
 import numpy as np
 
 
@@ -77,7 +78,7 @@ class Cells:
 
         return photo
 
-    def get_statistics(self):
+    def get_stats(self):
         """
         to do
 
@@ -86,7 +87,7 @@ class Cells:
         alive = np.count_nonzero(self.__matrix == 1)
         cancerous = np.count_nonzero(self.__matrix == 2)
 
-        return self.__size ** 2 - alive - cancerous, alive, cancerous
+        return [self.__size ** 2 - alive - cancerous, alive, cancerous]
 
     def __solve_dead(self, coords, prob_growth, prob_spread_death):
         """

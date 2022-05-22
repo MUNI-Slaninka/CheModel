@@ -1,5 +1,6 @@
-import tkinter as tk
 import cells
+
+import tkinter as tk
 
 
 class Run:
@@ -43,7 +44,7 @@ class Run:
         stats = []
         for step in range(self.__count):
             self.__decide_step(step, start, count, frequency, strength_cancer, strength_normal)
-            stats.append(self.__cells.get_statistics())
+            stats.append(self.__cells.get_stats())
         self.__stats = stats
 
     def chemo_graphics(self, start, count, frequency, strength_cancer, strength_normal, scale=(DEF_SCALE, DEF_SCALE)):
@@ -71,7 +72,7 @@ class Run:
             img = self.__cells.get_image(scale)
             canvas.itemconfig(img_container, image=img)
             window.update()
-            stats.append(self.__cells.get_statistics())
+            stats.append(self.__cells.get_stats())
         window.mainloop()
         self.__stats = stats
 
@@ -91,13 +92,33 @@ class Run:
         """
         return self.__stats[-1]
 
-    def get_sum(self):
+    def get_avg(self):
         """
         to do
         :return:
         """
 
-        return tuple(map(sum, zip(*self.__stats)))
+        return list(map(lambda x: sum(x)/len(self.__stats), zip(*self.__stats)))
+
+    def get_min(self):
+        """
+        to do
+        :return:
+        """
+
+        return [min(self.__stats)[0],
+                min(self.__stats, key=lambda t: t[1])[1],
+                min(self.__stats, key=lambda t: t[2])[2]]
+
+    def get_max(self):
+        """
+        to do
+        :return:
+        """
+
+        return [max(self.__stats)[0],
+                max(self.__stats, key=lambda t: t[1])[1],
+                max(self.__stats, key=lambda t: t[2])[2]]
 
     def __decide_step(self, step, start, count, frequency, strength_cancer, strength_normal):
         """
