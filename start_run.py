@@ -40,6 +40,7 @@ def run_single(count, size, prob_death_normal, prob_death_cancer, prob_spread_al
     if plot:
         graph.plot_2d(statistics, (1, len(statistics)+1), ["dead", "alive", "cancerous"],
                       "time(no steps)", "count of cells", "Single run")
+        graph.save("Single_run")
         graph.show()
 
     return run_.get_final()
@@ -90,14 +91,17 @@ def run_multiple(stats_key, legend, runs_count, count, size, prob_death_normal, 
     if plot and analytics_.get_dimensions() == 1:
         graph.plot_2d(statistics, next(analytics_.get_ranges()), list(compress(legend, stats_key)),
                       next(analytics_.get_legend()), "count of cells", "Multiple runs")
+        graph.save("Multiple_runs")
         graph.show()
 
     if plot and analytics_.get_dimensions() == 2:
         for key in _solve_single_key(stats_key):
             single_stats = analytics_.get_stats(key)
             rang_iter = analytics_.get_ranges()
+            title = list(compress(legend, key))[0]
             graph.plot_heatmap(single_stats, next(rang_iter), next(rang_iter),
-                               analytics_.get_legend(), list(compress(legend, key))[0])
+                               analytics_.get_legend(), title)
+            graph.save(title.replace(" ", "_") + "_heatmap")
             graph.show()
 
     return statistics

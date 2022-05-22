@@ -1,7 +1,10 @@
+from datetime import datetime
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import numpy as np
+import os
 
 
 def plot_2d(data, range_, labels, x_axis, y_axis, title):
@@ -45,7 +48,6 @@ def plot_heatmap(data, range_x, range_y, labels, title):
     plt.clf()
     pd_data = pd.DataFrame(data, columns=list(np.arange(range_y[0], range_y[1], range_y[2])))
     pd_data.set_index(pd.Index(list(np.arange(range_x[0], range_x[1], range_x[2]))))
-    print(pd_data)
     sns.heatmap(pd_data, annot=True)
     plt.xlabel(next(labels))
     plt.ylabel(next(labels))
@@ -62,13 +64,15 @@ def show():
     plt.show()
 
 
-def save(file):
+def save(name_):
     """
     to do
 
-    :param file:
+    :param name_:
 
     :return:
     """
+    os.makedirs("plots", exist_ok=True)
+    file = f"plots/{name_}{datetime.now().strftime('%d-%b-%Y_%H:%M:%S')}.png"
     plt.savefig(file)
     pass
