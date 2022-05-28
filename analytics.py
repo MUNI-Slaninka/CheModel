@@ -63,11 +63,12 @@ class Analytics:
                         results.append(run_.get_final() + run_.get_avg() + run_.get_min() + run_.get_max())
                     results_avg = [sum([r[i] for r in results]) / len(results) for i in range(len(results[0]))]
                     statistics[-1][-1].append(results_avg)
-                    statistics.append([])
-                    statistics[-1].append([])
+                statistics[-1].append([])
+            statistics.append([])
+
         print("")
-        statistics[-1].pop()
         statistics.pop()
+        statistics[-1].pop()
         self.__statistics = statistics
 
         return self
